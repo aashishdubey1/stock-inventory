@@ -1,0 +1,44 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String @id @default(uuid()) @map("users")
+  username  String @unique @map("username")
+  email     String @unique @map("email")
+  password  String @map("password")
+  role      Role @map("role")
+  godownId  Int? @map("godown_id")
+  isActive  Boolean @default(true) @map("is_active") 
+  lastLogin DateTime? @map("last_login")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  godown    Godown? @relation(fields: [godownId], references: [id])
+  @@map("users")
+}
+
+model Godown {
+  id        Int @id @default(autoincrement())  @map("godowns")
+  name      String  @unique @map("name")
+  location  String @map("location")
+  contactPerson String @map("contact_person")
+  contactNumber String @map("contact_number")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  users     User[]
+  @@map("godowns")
+}
+
+enum Role {
+  Searcher
+  StockInCharge
+  Supervisor
+}
