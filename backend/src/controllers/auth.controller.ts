@@ -6,7 +6,7 @@ import { Role } from "../../generated/prisma/enums";
 
 export const register = async (req: Request, res: Response) => {
     try {
-        const { username, email, password, role: roleInput } = req.body;
+        const { username, email, password, role: roleInput, godownId } = req.body;
 
         const existingUser = await UserRepository.findByEmail(email) || await UserRepository.findByUsername(username);
 
@@ -23,6 +23,7 @@ export const register = async (req: Request, res: Response) => {
             username,
             password: hashedPassword,
             role,
+            godownId,
         });
 
         const token = generateToken({ userId: user.id, role: user.role });

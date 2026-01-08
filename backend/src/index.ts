@@ -1,5 +1,5 @@
 import express from "express";
-import authRoutes from "./routes/auth.routes";
+import apiRouter from "./routes/v1";
 import serverConfig from "./config/serverConfig";
 
 const app = express();
@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
     res.send("Inventory System Backend API");
 });
 
-app.use("/auth", authRoutes);
+app.use("/api/v1", apiRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

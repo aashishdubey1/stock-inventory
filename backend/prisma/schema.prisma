@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -9,36 +8,187 @@ datasource db {
 }
 
 model User {
-  id        String @id @default(uuid()) @map("users")
-  username  String @unique @map("username")
-  email     String @unique @map("email")
-  password  String @map("password")
-  role      Role @map("role")
-  godownId  Int? @map("godown_id")
-  isActive  Boolean @default(true) @map("is_active") 
+  id        String    @id @default(uuid()) @map("users")
+  username  String    @unique @map("username")
+  email     String    @unique @map("email")
+  password  String    @map("password")
+  role      Role      @default(Searcher) @map("role")
+  godownId  Int?      @map("godown_id")
+  isActive  Boolean   @default(true) @map("is_active")
   lastLogin DateTime? @map("last_login")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
 
-  godown    Godown? @relation(fields: [godownId], references: [id])
+  godown            Godown?            @relation(fields: [godownId], references: [id])
+  cableTransactions CableTransaction[]
+
   @@map("users")
 }
 
 model Godown {
-  id        Int @id @default(autoincrement())  @map("godowns")
-  name      String  @unique @map("name")
-  location  String @map("location")
-  contactPerson String @map("contact_person")
-  contactNumber String @map("contact_number")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  
-  users     User[]
+  id            Int      @id @default(autoincrement()) @map("godowns_id")
+  name          String   @unique @map("name")
+  location      String   @map("location")
+  contactPerson String   @map("contact_person")
+  contactNumber String   @map("contact_number")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  users         User[]
+  cableStocks   CableStock[]
+  looseLengths  LooseLength[]
+  shipmentsFrom CableTransaction[] @relation("FromGodown")
+  shipmentsTo   CableTransaction[] @relation("ToGodown")
+
   @@map("godowns")
 }
+
+model CableStock {
+  id         Int    @id @default(autoincrement()) @map("cable_stocks_id")
+  drumNumber String @unique @map("drum_number")
+
+  size          String        @map("size")
+  conductorType ConductorType @map("conductor_type")
+  armourType    ArmourType    @map("armour_type")
+  frls          String        @map("frls")
+  details       String        @map("details")
+  stockStatus   StockStatus   @default(RUNNING) @map("stock_status")
+
+  make   String  @map("make")
+  partNo String? @map("part_no")
+
+  packagingType String @default("DRUM") @map("packaging_type")
+
+  initialQuantity Decimal @map("initial_quantity")
+  presentQuantity Decimal @map("present_quantity")
+
+  godownId Int     @map("godown_id")
+  site     String  @map("site")
+  location String? @map("location")
+
+  isMultiCoil     Boolean? @default(false) @map("is_multi_coil")
+  numberOfCartons Int?     @map("number_of_cartons")
+  coilsPerCarton  Decimal? @map("coils_per_carton")
+  totalCoils      Decimal? @map("total_coils")
+  coilsRemaining  Decimal? @map("coils_remaining")
+  qtyPerCoil      Decimal? @map("qty_per_coil")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  isDeleted Boolean  @default(false)
+
+  godown            Godown             @relation(fields: [godownId], references: [id])
+  cableTransactions CableTransaction[]
+
+  @@map("cable_stocks")
+}
+
+model LooseLength {
+  id Int @id @default(autoincrement()) @map("loose_length_id")
+
+  size          String        @map("size")
+  conductorType ConductorType @map("conductor_type")
+  armourType    ArmourType    @map("armour_type")
+  frls          String        @map("frls")
+  details       String        @map("details")
+  stockStatus   StockStatus   @map("stock_status")
+
+  make   String  @map("make")
+  partNo String? @map("part_no")
+
+  quantity Decimal @map("quantity")
+  unit     String  @map("unit")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  isDeleted Boolean  @default(false)
+
+  godownId Int @map("godown_id")
+
+  cableTransactions CableTransaction[]
+  godown            Godown             @relation(fields: [godownId], references: [id])
+
+  @@map("loose_lengths")
+}
+
+model CableTransaction {
+  id              Int             @id @default(autoincrement()) @map("cable_transactions_id")
+  cableStockId    Int?            @map("cable_stock_id")
+  looseLengthId   Int?            @map("loose_length_id")
+  transactionType TransactionType @map("transaction_type")
+
+  size          String        @map("size")
+  conductorType ConductorType @map("conductor_type")
+  armourType    ArmourType    @map("armour_type")
+  frls          String        @map("frls")
+  details       String        @map("details")
+  make          String        @map("make")
+  partNo        String?       @map("part_no")
+
+  quantity     Decimal @map("quantity")
+  unit         String  @map("unit")
+  balanceAfter Decimal @map("balance_after")
+
+  coilsDispatched Decimal? @map("coils_dispatched")
+
+  dispatchedDate    DateTime @default(now()) @map("dispatch_date")
+  dispatchedCompany String   @map("dispatched_company")
+  invoiceNumber     String?  @map("invoice_number")
+
+  fromGodownId Int? @map("from_godown_id")
+  toGodownId   Int? @map("to_godown_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  userId String @map("user_id")
+
+  user        User         @relation(fields: [userId], references: [id])
+  cableStock  CableStock?  @relation(fields: [cableStockId], references: [id])
+  looseLength LooseLength? @relation(fields: [looseLengthId], references: [id])
+  fromGodown  Godown?      @relation("FromGodown", fields: [fromGodownId], references: [id])
+  toGodown    Godown?      @relation("ToGodown", fields: [toGodownId], references: [id])
+}
+
+model Category {
+  id   String @id @default(uuid()) @map("categories_id")
+  name String @unique @map("name")
+
+  parentCategory String? @map("parent_category_id")
+  description    String? @map("description")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("categories")
+}
+
+// ------------- Enums---------
 
 enum Role {
   Searcher
   StockInCharge
   Supervisor
+}
+
+enum ConductorType {
+  AL
+  CU
+}
+
+enum ArmourType {
+  ARM
+  FLEX
+  UNARM
+}
+
+enum StockStatus {
+  RUNNING
+  DEPLETED
+}
+
+enum TransactionType {
+  IN
+  OUT
+  TRANSFER
+  ADJUSTMENT
 }

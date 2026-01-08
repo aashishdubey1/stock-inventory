@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Role } from "../../generated/prisma/enums";
 
 export const loginSchema = z.object({
     email: z.string().email(),
@@ -9,4 +10,6 @@ export const registerSchema = z.object({
     username: z.string().min(3, "Username must be at least 3 characters"),
     email: z.string().email(),
     password: z.string().min(6, "Password must be at least 6 characters"),
+    role: z.enum(Role).optional().default(Role.Searcher),
+    godownId: z.number().optional(),
 });
