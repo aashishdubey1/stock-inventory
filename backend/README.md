@@ -29,6 +29,12 @@ This is the backend for an Inventory Management System designed for an electrica
     - `POST /api/v1/cables` (Add Stock - Supervisor/Stock In-Charge)
     - `GET /api/v1/cables` (List Stock with filtering)
 
+### 4. Loose Length Inventory
+- Manage Cut pieces/Short lengths.
+- **Endpoints**:
+    - `POST /api/v1/loose-lengths` (Add Stock)
+    - `GET /api/v1/loose-lengths` (List Stock)
+
 ## 🛠 Tech Stack
 - **Framework**: Express.js
 - **Language**: TypeScript
