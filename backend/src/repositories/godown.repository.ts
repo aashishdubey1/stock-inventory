@@ -1,5 +1,5 @@
 import prisma from "../config/prisma";
-import { Prisma, type Godown } from "../../generated/prisma/client";
+import { Prisma, type Godown } from "@prisma/client";
 
 export class GodownRepository {
     static async create(data: Prisma.GodownCreateInput): Promise<Godown> {

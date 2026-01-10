@@ -1,5 +1,5 @@
 import prisma from "../config/prisma";
-import { Prisma, TransactionType, type CableTransaction } from "../../generated/prisma/client";
+import { Prisma, TransactionType, type CableTransaction } from "@prisma/client";
 
 export class TransactionRepository {
     /**

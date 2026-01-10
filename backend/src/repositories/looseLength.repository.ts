@@ -1,5 +1,5 @@
 import prisma from "../config/prisma";
-import { Prisma, type LooseLength } from "../../generated/prisma/client";
+import { Prisma, type LooseLength } from "@prisma/client";
 
 export class LooseLengthRepository {
     static async create(data: Prisma.LooseLengthCreateInput | Prisma.LooseLengthUncheckedCreateInput): Promise<LooseLength> {

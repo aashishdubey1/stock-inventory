@@ -1,5 +1,5 @@
 import prisma from "../config/prisma";
-import { Prisma, TransactionType, type CableStock } from "../../generated/prisma/client";
+import { Prisma, TransactionType, type CableStock } from "@prisma/client";
 
 export class CableStoreRepository {
     static async create(data: Prisma.CableStockCreateInput | Prisma.CableStockUncheckedCreateInput, userId: string): Promise<CableStock> {
