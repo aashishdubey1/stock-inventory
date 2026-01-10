@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import { UserRepository } from "../repositories/user.repository";
 import { comparePassword, generateToken, hashPassword } from "../utils/auth.utils";
 import type { AuthRequest } from "../middlewares/auth.middleware";
-import { Role } from "../../generated/prisma/enums";
+import { Role } from "@prisma/client";
 
 export const register = async (req: Request, res: Response) => {
     try {

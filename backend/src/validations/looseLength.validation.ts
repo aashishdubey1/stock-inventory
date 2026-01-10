@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ArmourType, ConductorType, StockStatus } from "../../generated/prisma/enums";
+import { ArmourType, ConductorType, StockStatus } from "@prisma/client";
 
 export const createLooseLengthSchema = z.object({
     size: z.string().min(1, "Size is required"),

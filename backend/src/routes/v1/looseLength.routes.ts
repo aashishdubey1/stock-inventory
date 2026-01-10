@@ -3,7 +3,7 @@ import { addLooseLength, getLooseLengths } from "../../controllers/looseLength.c
 import { authenticate, authorize } from "../../middlewares/auth.middleware";
 import { validate } from "../../middlewares/validate.middleware";
 import { createLooseLengthSchema } from "../../validations/looseLength.validation";
-import { Role } from "../../../generated/prisma/enums";
+import { Role } from "@prisma/client";
 
 const router = Router();
 

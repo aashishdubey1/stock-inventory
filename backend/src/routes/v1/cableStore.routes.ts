@@ -3,7 +3,7 @@ import { addStock, getCableStocks } from "../../controllers/cableStore.controlle
 import { authenticate, authorize } from "../../middlewares/auth.middleware";
 import { validate } from "../../middlewares/validate.middleware";
 import { createCableStockSchema } from "../../validations/cableStore.validation";
-import { Role } from "../../../generated/prisma/enums";
+import { Role } from "@prisma/client";
 
 const router = Router();
 

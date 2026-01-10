@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ArmourType, ConductorType, StockStatus } from "../../generated/prisma/enums";
+import { ArmourType, ConductorType, StockStatus } from "@prisma/client";
 
 export const createCableStockSchema = z.object({
     drumNumber: z.string().min(1, "Drum number is required"),

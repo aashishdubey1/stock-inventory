@@ -3,7 +3,7 @@ import { dispatchStock, transferStock, getTransactions } from "../../controllers
 import { authenticate, authorize } from "../../middlewares/auth.middleware";
 import { validate } from "../../middlewares/validate.middleware";
 import { dispatchSchema, transferSchema } from "../../validations/transaction.validation";
-import { Role } from "../../../generated/prisma/enums";
+import { Role } from "@prisma/client";
 
 const router = Router();
 

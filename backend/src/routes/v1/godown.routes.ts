@@ -3,7 +3,7 @@ import { createGodown, deleteGodown, getAllGodowns, getGodownById, updateGodown 
 import { authenticate, authorize } from "../../middlewares/auth.middleware";
 import { validate } from "../../middlewares/validate.middleware";
 import { createGodownSchema, updateGodownSchema } from "../../validations/godown.validation";
-import { Role } from "../../../generated/prisma/enums";
+import { Role } from "@prisma/client";
 
 const router = Router();
 
