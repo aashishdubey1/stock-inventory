@@ -9,7 +9,7 @@ export function StockInPage() {
 
     return (
         <div className="space-y-6">
-            <div className="mb-6">
+            <div className="mb-1">
                 <h1 className="text-2xl font-bold text-gray-900">Stock In</h1>
                 <p className="text-gray-600">Add items to inventory</p>
             </div>

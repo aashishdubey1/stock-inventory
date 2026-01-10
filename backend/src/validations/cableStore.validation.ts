@@ -13,7 +13,7 @@ export const createCableStockSchema = z.object({
     partNo: z.string().optional(),
     packagingType: z.string().default("DRUM"),
     initialQuantity: z.number().min(0, "Initial quantity must be positive"),
-    presentQuantity: z.number().min(0, "Present quantity must be positive"),
+    presentQuantity: z.number().optional(),
     godownId: z.number({ message: "Godown ID is required" }),
     site: z.string().min(1, "Site is required"),
     location: z.string().optional(),
@@ -25,6 +25,7 @@ export const createCableStockSchema = z.object({
     coilsRemaining: z.number().optional(),
     qtyPerCoil: z.number().optional(),
 }).refine(data => {
+    data.presentQuantity = data.presentQuantity || data.initialQuantity;
     return true;
 });
 

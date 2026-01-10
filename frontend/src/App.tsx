@@ -6,15 +6,10 @@ import { DashboardLayout } from './components/Layout/DashboardLayout';
 import { SearcherDashboard } from './pages/SearcherDashboard';
 import { StockInChargeDashboard } from './pages/StockInChargeDashboard';
 import { SupervisorDashboard } from './pages/SupervisorDashboard';
-import { CableDispatchForm } from './pages/CableDispatchForm';
-import { MultiCoilDispatchForm } from './pages/MultiCoilDispatchForm';
-import { NonCableStockIn } from './pages/NonCableStockIn';
 import { TransactionHistory } from './pages/TransactionHistory';
 import { ReportsPage } from './pages/ReportsPage';
 import { StockInPage } from './pages/StockInPage';
 import { DispatchPage } from './pages/DispatchPage';
-import { CableStockIn } from './pages/CableStockIn';
-import { NonCableDispatchForm } from './pages/NonCableDispatchForm';
 import { EditTransactionModal } from './pages/EditTransactionModal';
 
 // Protected Route Wrapper
@@ -53,10 +48,11 @@ const router = createBrowserRouter([
         element: <DashboardLayout />,
         children: [
           { path: "/", element: <DashboardHome /> },
+          { path: "/search", element: <SearcherDashboard /> },
           { path: "/stock-in", element: <StockInPage /> },
           { path: "/dispatch", element: <DispatchPage /> },
-          { path: "/history", element: <TransactionHistory onNavigate={() => { }} /> },
-          { path: "/reports", element: <ReportsPage onNavigate={() => { }} /> },
+          { path: "/history", element: <TransactionHistory /> },
+          { path: "/reports", element: <ReportsPage /> },
           { path: "/edit-transaction", element: <EditTransactionModal onNavigate={() => { }} /> },
         ]
       }

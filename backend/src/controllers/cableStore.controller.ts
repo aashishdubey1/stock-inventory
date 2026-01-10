@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
 import { CableStoreRepository } from "../repositories/cableStore.repository";
-import { getCableStockSchema } from "../validations/cableStore.validation";
+import type { AuthRequest } from "../middlewares/auth.middleware";
 
-export const addStock = async (req: Request, res: Response) => {
+export const addStock = async (req: AuthRequest, res: Response) => {
     try {
         const data = req.body;
 
@@ -13,7 +13,7 @@ export const addStock = async (req: Request, res: Response) => {
             return;
         }
 
-        const cableStock = await CableStoreRepository.create(data);
+        const cableStock = await CableStoreRepository.create(data, req.user!.id);
         res.status(201).json({ message: "Cable stock added successfully", cableStock });
     } catch (error) {
         console.error(error);

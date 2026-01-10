@@ -36,6 +36,7 @@ export function DashboardLayout() {
 
         if (user?.role === 'StockInCharge') {
             return [
+                { icon: Search, label: 'Search Inventory', path: '/search' },
                 { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
                 { icon: Upload, label: 'Stock In', path: '/stock-in' },
                 { icon: Truck, label: 'Dispatch', path: '/dispatch' },
@@ -46,7 +47,10 @@ export function DashboardLayout() {
         if (user?.role === 'Supervisor') {
             return [
                 { icon: LayoutDashboard, label: 'Overview', path: '/' },
-                { icon: History, label: 'Transactions', path: '/history' },
+                { icon: Search, label: 'Search Inventory', path: '/search' },
+                { icon: Upload, label: 'Stock In', path: '/stock-in' },
+                { icon: Truck, label: 'Dispatch', path: '/dispatch' },
+                { icon: History, label: 'History', path: '/history' },
                 { icon: FileText, label: 'Reports', path: '/reports' },
             ];
         }

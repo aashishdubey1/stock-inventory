@@ -5,7 +5,7 @@ interface StatCardProps {
   title: string;
   value: string | number;
   icon: LucideIcon;
-  color?: 'blue' | 'green' | 'yellow' | 'red';
+  color?: 'blue' | 'green' | 'yellow' | 'red' | 'indigo' | 'orange' | 'purple' | 'gray';
 }
 
 export function StatCard({ title, value, icon: Icon, color = 'blue' }: StatCardProps) {
@@ -14,6 +14,10 @@ export function StatCard({ title, value, icon: Icon, color = 'blue' }: StatCardP
     green: 'bg-green-50 text-green-600',
     yellow: 'bg-yellow-50 text-yellow-600',
     red: 'bg-red-50 text-red-600',
+    indigo: 'bg-indigo-50 text-indigo-600',
+    orange: 'bg-orange-50 text-orange-600',
+    purple: 'bg-purple-50 text-purple-600',
+    gray: 'bg-gray-50 text-gray-600',
   };
 
   return (

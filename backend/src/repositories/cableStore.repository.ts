@@ -1,11 +1,43 @@
 import prisma from "../config/prisma";
-import { Prisma, type CableStock } from "../../generated/prisma/client";
+import { Prisma, TransactionType, type CableStock } from "../../generated/prisma/client";
 
 export class CableStoreRepository {
-    static async create(data: Prisma.CableStockCreateInput | Prisma.CableStockUncheckedCreateInput): Promise<CableStock> {
-        return prisma.cableStock.create({
-            data,
-        });
+    static async create(data: Prisma.CableStockCreateInput | Prisma.CableStockUncheckedCreateInput, userId: string): Promise<CableStock> {
+        return prisma.$transaction(async (tx) => {
+            const stock = await tx.cableStock.create({ data })
+
+            const transaction = await tx.cableTransaction.create({
+                data: {
+                    cableStockId: Number(stock.id),
+                    transactionType: TransactionType.IN,
+                    quantity: Number(stock.initialQuantity),
+                    balanceAfter: stock.initialQuantity,
+                    dispatchedDate: new Date(),
+                    dispatchedCompany: "",
+                    invoiceNumber: "",
+                    fromGodownId: null,
+                    toGodownId: stock.godownId,
+
+                    size: stock.size,
+                    conductorType: stock.conductorType,
+                    armourType: stock.armourType,
+                    frls: stock.frls,
+                    details: stock.details,
+                    make: stock.make,
+                    partNo: stock.partNo,
+                    unit: "Meters",
+
+                    userId: userId,
+
+                }
+            })
+
+            if (!transaction) {
+                throw new Error("Transaction not created");
+            }
+
+            return stock;
+        })
     }
 
     static async findAll(filters: { godownId?: number; drumNumber?: string }): Promise<CableStock[]> {
